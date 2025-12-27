@@ -7,48 +7,69 @@
 </head>
 <body>
 
-<div class="scene">
-  <div class="book" id="book">
+<div class="book-wrapper">
+  <div class="book">
 
-    <!-- COVER -->
     <div class="page active cover">
       <h1>My 2026 Plan</h1>
+      <p>Turning plans into reality.</p>
       <button class="next">→</button>
     </div>
 
-    <!-- PAGE 1 -->
     <div class="page">
       <h2>About Me</h2>
-      <p>This year is about growth and execution.</p>
-      <button class="next">→</button>
+      <p>I am building myself step by step.</p>
+      <div class="nav">
+        <button class="prev">←</button>
+        <button class="next">→</button>
+      </div>
     </div>
 
-    <!-- PAGE 2 -->
     <div class="page">
-      <h2>Skills</h2>
+      <h2>Skills to Learn</h2>
       <ul>
+        <li>HTML, CSS, JS</li>
         <li>Database Design</li>
-        <li>SQL</li>
-        <li>HTML & CSS</li>
+        <li>UI / UX</li>
       </ul>
-      <button class="next">→</button>
+      <div class="nav">
+        <button class="prev">←</button>
+        <button class="next">→</button>
+      </div>
     </div>
 
-    <!-- PAGE 3 -->
     <div class="page">
-      <h2>Goals</h2>
-      <p>Strong portfolio and consistency.</p>
-      <button class="next">→</button>
+      <h2>Plans</h2>
+      <p>Daily discipline and consistent effort.</p>
+      <div class="nav">
+        <button class="prev">←</button>
+        <button class="next">→</button>
+      </div>
     </div>
 
-    <!-- PAGE 4 -->
+    <div class="page">
+      <h2>Projects</h2>
+      <p>Portfolio, design systems, experiments.</p>
+      <div class="nav">
+        <button class="prev">←</button>
+        <button class="next">→</button>
+      </div>
+    </div>
+
     <div class="page">
       <h2>Conclusion</h2>
-      <p>Built page by page. 2026 is mine.</p>
+      <p>
+        Built page by page.<br>
+        Executed day by day.<br>
+        <strong>2026 is mine.</strong>
+      </p>
+      <button class="prev">←</button>
     </div>
 
   </div>
 </div>
+
+<audio id="flipSound" src="assets/page-flip.mp3"></audio>
 
 <script src="script.js"></script>
 </body>

@@ -1,20 +1,51 @@
 const pages = document.querySelectorAll(".page");
-let current = 0;
+const flipSound = document.getElementById("flipSound");
+let currentPage = 0;
 
-document.querySelectorAll(".next").forEach(btn => {
-  btn.addEventListener("click", () => {
-
-    // Flip current page
-    pages[current].classList.add("turn");
-
-    // Hide current after animation
-    setTimeout(() => {
-      pages[current].classList.remove("active");
-      current++;
-
-      if (current < pages.length) {
-        pages[current].classList.add("active");
-      }
-    }, 500);
+function showPage() {
+  pages.forEach((p, i) => {
+    p.classList.remove("active");
+    if (i === currentPage) p.classList.add("active");
   });
+}
+
+function flipForward() {
+  if (currentPage < pages.length - 1) {
+    flipSound.currentTime = 0;
+    flipSound.play();
+    pages[currentPage].classList.add("turn");
+
+    setTimeout(() => {
+      pages[currentPage].classList.remove("turn");
+      currentPage++;
+      showPage();
+    }, 450);
+  }
+}
+
+function flipBack() {
+  if (currentPage > 0) {
+    flipSound.currentTime = 0;
+    flipSound.play();
+    currentPage--;
+    showPage();
+  }
+}
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("next")) flipForward();
+  if (e.target.classList.contains("prev")) flipBack();
+});
+
+/* Swipe support */
+let startX = 0;
+
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) flipForward();
+  if (endX - startX > 50) flipBack();
 });
