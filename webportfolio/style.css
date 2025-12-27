@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, serif;
+}
+
+body {
+  height: 100vh;
+  background: #ece7dd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scene {
+  perspective: 2000px;
+}
+
+/* BOOK */
+.book {
+  width: 320px;
+  height: 420px;
+  position: relative;
+  transform: rotateX(15deg) rotateY(-20deg);
+  transition: transform 1s ease;
+}
+
+/* PAGE BASE */
+.page {
+  position: absolute;
+  inset: 0;
+  padding: 24px;
+
+  background:
+    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+    url("assets/paper-texture.jpeg");
+  background-size: cover;
+
+  border-radius: 6px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+
+  transform-origin: left;
+  transform: rotateY(0deg);
+  transition: transform 1s ease;
+
+  /* 🔑 IMPORTANT */
+  display: none;
+}
+
+/* ONLY ACTIVE PAGE IS VISIBLE */
+.page.active {
+  display: block;
+}
+
+/* TURNED PAGE */
+.page.turn {
+  transform: rotateY(-180deg);
+}
+
+/* COVER */
+.cover {
+  background: #f2b94b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.next {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+}
