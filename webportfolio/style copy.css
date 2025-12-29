@@ -2,7 +2,7 @@
 
 body {
   height:100vh; display:flex; justify-content:center; align-items:center;
-  background: #222; /* Darker background for focus */
+  background: #333;
 }
 
 .book-wrapper { perspective:2000px; }
@@ -11,14 +11,14 @@ body {
 
 /* Covers */
 .page.cover, .page.back {
-  width:330px; height:100%; border-radius:0 6px 6px 0;
-  box-shadow:0 8px 30px rgba(0,0,0,0.4); position:absolute;
+  width:330px; height:100%; border-radius:6px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2); position:absolute;
   display:flex; justify-content:center; align-items:center; flex-direction:column;
   backface-visibility:hidden; transition:transform 1s ease; z-index:10;
 }
 
 .page.cover { background:#ff4d4d; right:0; transform-origin:left; color:white; }
-.page.back { background:#ff4d4d; left:0; transform-origin:right; color:white; border-radius:6px 0 0 6px;}
+.page.back { background:#ff4d4d; left:0; transform-origin:right; color:white; }
 
 /* Spreads */
 .spread { display:none; width:660px; height:100%; position:absolute; top:0; left:0; transform-style:preserve-3d; }
@@ -31,18 +31,17 @@ body {
 
 .page.left.white { 
   background:#fff; 
-  border-radius: 6px 0 0 6px;
+  transform-origin: right; /* Hinges on the spine */
 }
 
 .page.right.white.lined {
   background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 24px), #fff;
-  transform-origin: left; /* Spine hinge */
-  border-radius: 0 6px 6px 0;
+  transform-origin: left; /* Hinges on the spine */
 }
 
-/* Forward: Right page rotates to -180deg (Anti-clockwise) */
-/* Backward: We remove this class so it rotates back to 0deg (Clockwise) */
-.turn-forward { transform: rotateY(-180deg); }
+/* Animation Classes */
+.turn-forward { transform: rotateY(-180deg); } /* Right page to left (counter-clockwise) */
+.turn-backward { transform: rotateY(180deg); }  /* Left page to right (clockwise) */
 
 /* Buttons */
 h1,h2{margin-bottom:14px;} p,li{font-size:14px; margin-bottom:8px;} ul{padding-left:20px;}
