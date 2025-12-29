@@ -3,7 +3,7 @@ const frontCover = document.getElementById("front-cover");
 const backCover = document.getElementById("back-cover");
 const flipSound = document.getElementById("flipSound");
 
-let current = -1; // -1 = front cover, 0..n-1 = inner spreads, n = back cover
+let current = -1; 
 
 function showCurrent() {
   spreads.forEach(s => s.style.display = "none");
@@ -15,58 +15,59 @@ function showCurrent() {
   else if(current === spreads.length) backCover.style.display = "flex";
 }
 
-// Forward flip
 function flipForward() {
-  if(current === -1){
-    frontCover.classList.remove("turn-back"); frontCover.classList.add("turn");
+  if(current === -1) {
+    frontCover.classList.add("turn-forward");
     flipSound?.play();
-    setTimeout(()=>{ current++; showCurrent(); }, 1000);
-  } else if(current < spreads.length){
-    const right = spreads[current].querySelector(".page.right");
-    if(right) { right.classList.remove("turn-back"); right.classList.add("turn"); }
+    setTimeout(() => { current++; showCurrent(); }, 1000);
+  } else if(current < spreads.length) {
+    const rightPage = spreads[current].querySelector(".page.right");
+    rightPage.classList.add("turn-forward");
     flipSound?.play();
-    setTimeout(()=>{ current++; showCurrent(); }, 1000);
-  } else if(current === spreads.length){
-    backCover.classList.remove("turn-back"); backCover.classList.add("turn");
-    flipSound?.play();
+    setTimeout(() => { current++; showCurrent(); }, 1000);
   }
 }
 
-// Backward flip (right page rotates clockwise to left)
 function flipBack() {
-  if(current > 0 && current <= spreads.length){
-    const left = spreads[current-1].querySelector(".page.left");
-    if(left){
-      left.classList.remove("turn-back"); // reset if needed
-      left.classList.add("turn-back");    // rotate clockwise over right page
-      flipSound?.play();
-      setTimeout(()=>{ current--; showCurrent(); }, 1000);
-    }
-  } else if(current === 0){
-    frontCover.classList.remove("turn");
-    frontCover.classList.add("turn-back");
+  if(current === 0) {
+    // Turning back to cover: Show cover, start it at rotated state, then animate to 0
+    frontCover.style.display = "flex";
+    frontCover.style.transition = "none";
+    frontCover.classList.add("turn-forward");
+    frontCover.offsetHeight; // force reflow
+    frontCover.style.transition = "transform 1s ease";
+    frontCover.classList.remove("turn-forward");
+    
     flipSound?.play();
-    setTimeout(()=>{ current = -1; showCurrent(); }, 1000);
-  } else if(current === spreads.length){
-    backCover.classList.remove("turn");
-    backCover.classList.add("turn-back");
+    setTimeout(() => { current = -1; showCurrent(); }, 1000);
+  } 
+  else if(current > 0 && current <= spreads.length) {
+    // Backtracking spread: We want the LEFT page of the current spread to swing clockwise
+    const currentLeftPage = spreads[current-1].querySelector(".page.left");
+    
+    // Set left page to be flipped clockwise (180deg) initially
+    currentLeftPage.style.transition = "none";
+    currentLeftPage.classList.add("turn-backward");
+    currentLeftPage.offsetHeight; // force reflow
+    
+    // Animate it back to 0deg (swinging clockwise onto the right)
+    currentLeftPage.style.transition = "transform 1s ease";
+    currentLeftPage.classList.remove("turn-backward");
+    
     flipSound?.play();
-    setTimeout(()=>{ current--; showCurrent(); }, 1000);
+    setTimeout(() => { current--; showCurrent(); }, 1000);
+  }
+  else if(current === spreads.length) {
+    // From back cover
+    backCover.classList.add("turn-backward");
+    flipSound?.play();
+    setTimeout(() => { current--; showCurrent(); }, 1000);
   }
 }
 
-// Arrow click
-document.addEventListener("click", e=>{
+document.addEventListener("click", e => {
   if(e.target.classList.contains("next")) flipForward();
   if(e.target.classList.contains("prev")) flipBack();
 });
 
-// Background click triggers forward flip
-document.querySelector(".book-wrapper").addEventListener("click", e=>{
-  if(!e.target.classList.contains("next") && !e.target.classList.contains("prev")){
-    flipForward();
-  }
-});
-
-// Initialize
 showCurrent();
